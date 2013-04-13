@@ -14,7 +14,8 @@
         <url>https://github.com/PEXPlugins/PermissionsEx/issues</url>
     </issueManagement>
     <build>
-        <finalName>${project.artifactId}</finalName>
+        <defaultGoal>clean install</defaultGoal>
+        <finalName>${project.name}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

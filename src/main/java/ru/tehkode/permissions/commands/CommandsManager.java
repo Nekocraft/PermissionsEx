@@ -95,17 +95,17 @@ public class CommandsManager {
 		}
 
 		if (selectedBinding == null) { // there is fitting handler
-			sender.sendMessage(ChatColor.RED + "Error in command syntax. Check command help.");
+			sender.sendMessage(ChatColor.RED + "命令语法错误,请检查帮助.");
 			return true;
 		}
 
 		// Check permission
 		if (sender instanceof Player) { // this method are not public and required permission
 			if (!selectedBinding.checkPermissions((Player) sender)) {
-				logger.warning("User " + ((Player) sender).getName() + " tried to access chat command \""
+				logger.warning("用户 " + ((Player) sender).getName() + " 尝试使用 \""
 						+ command.getName() + " " + arguments
-						+ "\", but doesn't have permission to do this.");
-				sender.sendMessage(ChatColor.RED + "Sorry, you don't have enough permissions.");
+						+ "\", 但是没有足够的权限.");
+				sender.sendMessage(ChatColor.RED + "对不起你没有足够的权限");
 				return true;
 			}
 		}
@@ -115,13 +115,13 @@ public class CommandsManager {
 		} catch (InvocationTargetException e) {
 			if (e.getTargetException() instanceof AutoCompleteChoicesException) {
 				AutoCompleteChoicesException autocomplete = (AutoCompleteChoicesException) e.getTargetException();
-				sender.sendMessage("Autocomplete for <" + autocomplete.getArgName() + ">:");
+				sender.sendMessage("自动完成 <" + autocomplete.getArgName() + ">:");
 				sender.sendMessage("    " + StringUtils.implode(autocomplete.getChoices(), "   "));
 			} else {
 				throw new RuntimeException(e.getTargetException());
 			}
 		} catch (Exception e) {
-			logger.severe("There is bogus command handler for " + command.getName() + " command. (Is appropriate plugin is update?)");
+			logger.severe("一个伪造的 " + command.getName() + " 命令处理程序. (是不是插件该更新了?)");
 			if (e.getCause() != null) {
 				e.getCause().printStackTrace();
 			} else {

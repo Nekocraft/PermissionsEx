@@ -33,7 +33,7 @@ import java.util.logging.Logger;
  */
 public abstract class PermissionUser extends PermissionEntity {
 
-	private final static String PERMISSION_NOT_FOUND = "<not found>"; // used replace null for ConcurrentHashMap
+	private final static String PERMISSION_NOT_FOUND = "<找不到>"; // used replace null for ConcurrentHashMap
 
 	protected Map<String, List<PermissionGroup>> cachedGroups = new HashMap<String, List<PermissionGroup>>();
 	protected Map<String, String[]> cachedPermissions = new HashMap<String, String[]>();

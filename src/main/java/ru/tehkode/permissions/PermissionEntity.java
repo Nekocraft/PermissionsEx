@@ -133,7 +133,7 @@ public abstract class PermissionEntity {
 		String expression = getMatchingExpression(permission, world);
 
 		if (this.isDebug()) {
-			Logger.getLogger("Minecraft").info("User " + this.getName() + " checked for \"" + permission + "\", " + (expression == null ? "no permission found" : "\"" + expression + "\" found"));
+			Logger.getLogger("Minecraft").info("用户 " + this.getName() + " 检查了 \"" + permission + "\", " + (expression == null ? "没有权限被找到" : "\"" + expression + "\" found"));
 		}
 
 		return explainExpression(expression);

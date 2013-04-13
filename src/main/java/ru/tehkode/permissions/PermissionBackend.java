@@ -319,7 +319,7 @@ public abstract class PermissionBackend {
 
 		registedAliases.put(alias, backendClass);
 
-		Logger.getLogger("Minecraft").info("[PermissionsEx] " + alias + " backend registered!");
+		Logger.getLogger("Minecraft").info("[PermissionsEx] " + alias + " 后端已注册!~");
 	}
 
 	/**
@@ -384,13 +384,13 @@ public abstract class PermissionBackend {
 		try {
 			Class<? extends PermissionBackend> backendClass = getBackendClass(backendName);
 
-			Logger.getLogger("Minecraft").info("[PermissionsEx] Initializing " + backendName + " backend");
+			Logger.getLogger("Minecraft").info("[PermissionsEx] 初始化 " + backendName + " 后端");
 
 			Constructor<? extends PermissionBackend> constructor = backendClass.getConstructor(PermissionManager.class, Configuration.class);
 			return (PermissionBackend) constructor.newInstance(manager, config);
 		} catch (ClassNotFoundException e) {
 
-			Logger.getLogger("Minecraft").warning("[PermissionsEx] Specified backend \"" + backendName + "\" are not found.");
+			Logger.getLogger("Minecraft").warning("[PermissionsEx] 指定的后端 \"" + backendName + "\" 没有找到.");
 
 			if (fallBackBackend == null) {
 				throw new RuntimeException(e);

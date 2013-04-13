@@ -3,88 +3,88 @@ main: ru.tehkode.permissions.bukkit.PermissionsEx
 version: 1.19.5
 author: t3hk0d3
 website: www.bukkit.org
-description: PermissionsEx - New powerful users and groups permissions management plugin.
+description: PermissionsEx - 新的强大的用户和用户组的权限管理插件。
 commands:
   pex:
-    description: Provides access to Permissions commands and information.
+    description: 提供访问权限的命令和信息。
     usage: |
            Usage:
-           /<command> - Display help
-           /<command> reload - Reload environment
-           /<command> config <node> [value] - Print or set <node> [value]
-           /<command> backend - Print currently used backend
-           /<command> backend <backend> - Change permission backend on the fly (Use with caution!)
-           /<command> hierarchy [world] - Print complete user/group hierarchy
-           /<command> dump <backend> <filename> - Dump users/groups to selected <backend> format
-           /<command> toggle debug - Enable/disable debug mode
-           /<command> help [page] [count] - PermissionsEx commands help
-           /<command> users list - List all registered users
-           /<command> users - List all registered users (alias)
-           /<command> user - List all registered users (alias)
-           /<command> user <user> - List user permissions (list alias)
-           /<command> user <user> list [world] - List user permissions
-           /<command> user <user> superperms - List user actual superperms
-           /<command> user <user> prefix [newprefix] [world] - Get or set <user> prefix
-           /<command> user <user> suffix [newsuffix] [world] - Get or set <user> suffix
-           /<command> user <user> toggle debug - Toggle debug only for <user>
-           /<command> user <user> check <permission> [world] - Checks player for <permission>
-           /<command> user <user> get <option> [world] - Toggle debug only for <user>
-           /<command> user <user> delete - Remove <user>
-           /<command> user <user> add <permission> [world] - Add <permission> to <user> in [world]
-           /<command> user <user> remove <permission> [world] - Remove permission from <user> in [world]
-           /<command> user <user> swap <permission> <targetPermission> [world] - Swap <permission> and <targetPermission> in permission list. Could be number or permission itself
-           /<command> user <user> timed add <permission> [lifetime] [world] - Add timed <permissions> to <user> for [lifetime] seconds in [world]
-           /<command> user <user> timed remove <permission> [world] - Remove timed <permission> from <user> in [world]
-           /<command> user <user> set <option> <value> [world] - Set <option> to <value> in [world]
-           /<command> user <user> group list [world] - List all <user> groups
-           /<command> user <user> group add <group> [world] [lifetime] - Add <user> to <group>
-           /<command> user <user> group set <group> [world] - Set <group> for <user>
-           /<command> user <user> group remove <group> [world] - Remove <user> from <group>
-           /<command> users cleanup <group> [threshold] - Clean users of specified group, which last login was before threshold (in days). By default threshold is 30 days.
-           /<command> group <group> swap <permission> <targetPermission> [world] - Swap <permission> and <targetPermission> in permission list. Could be number or permission itself
-           /<command> groups list [world] - List all registered groups
-           /<command> groups - List all registered groups (alias)
-           /<command> group - List all registered groups (alias)
-           /<command> group <group> weight [weight] - Print or set group weight
-           /<command> group <group> toggle debug - Toggle debug mode for group
-           /<command> group <group> prefix [newprefix] [world] - Get or set <group> prefix.
-           /<command> group <group> suffix [newsuffix] [world] - Get or set <group> suffix
-           /<command> group <group> create [parents] - Create <group> and/or set [parents]
-           /<command> group <group> delete - Remove <group>
-           /<command> group <group> parents [world] - List parents for <group> (alias)
-           /<command> group <group> parents list [world] - List parents for <group>
-           /<command> group <group> parents set <parents> [world] - Set parent(s) for <group> (single or comma-separated list)
-           /<command> group <group> parents add <parents> [world] - Set parent(s) for <group> (single or comma-separated list)
-           /<command> group <group> parents remove <parents> [world] - Set parent(s) for <group> (single or comma-separated list)
-           /<command> group <group> - List all <group> permissions (alias)
-           /<command> group <group> list [world] - List all <group> permissions in [world]
-           /<command> group <group> add <permission> [world] - Add <permission> to <group> in [world]
-           /<command> group <group> set <option> <value> [world] - Set <option> <value> for <group> in [world]
-           /<command> group <group> remove <permission> [world] - Remove <permission> from <group> in [world]
-           /<command> group <group> timed add <permission> [lifetime] [world] - Add timed <permission> to <group> with [lifetime] in [world]
-           /<command> group <group> timed remove <permission> [world] - Remove timed <permissions> for <group> in [world]
-           /<command> group <group> users - List all users in <group>
-           /<command> group <group> user add <user> [world] - Add <user> (single or comma-separated list) to <group>
-           /<command> group <group> user remove <user> [world] - Add <user> (single or comma-separated list) to <group>
-           /<command> default group [world] - Print default group for specified world
-           /<command> set default group <group> [world] - Set default group for specified world
-           /<command> group <group> rank [rank] [ladder] - Get or set <group> [rank] [ladder]
-           /<command> promote <user> [ladder] - Promotes <user> to next group on [ladder]
-           /<command> demote <user> [ladder] - Demotes <user> to previous group or [ladder]
-           /<command> worlds - Print loaded worlds
-           /<command> world <world> - Print <world> inheritance info
-           /<command> world <world> inherit <parentWorlds> - Set <parentWorlds> for <world>
+           /<command> - 显示帮助
+           /<command> reload - 重新载入环境
+           /<command> config <节点> [value] - 输出或设置 <节点> [value]
+           /<command> backend - 打印目前使用的后端
+           /<command> backend <backend> - 在运行中更改权限后台 (小心使用!)
+           /<command> hierarchy [世界] - 打印完整的用户/组层次
+           /<command> dump <backend> <filename> - 转储用户/组使用特定<backend>的格式
+           /<command> toggle debug - 启用/禁用调试模式
+           /<command> help [page] [count] - PermissionsEx命令的帮助
+           /<command> users list - 列出所有注册用户
+           /<command> users - 列出所有注册用户（别名）
+           /<command> user - 列出所有注册用户（别名）
+           /<command> user <用户> - 列出用户权限（列表别名）
+           /<command> user <用户> list [世界] - 列出用户权限
+           /<command> user <用户> superperms - 列出当前用户的超级权限
+           /<command> user <用户> prefix [前缀] [世界] - 获取或设置<用户>前缀
+           /<command> user <用户> suffix [后缀] [世界] - 获取或设置<用户>后缀
+           /<command> user <用户> toggle debug - 为<用户>切换调试模式
+           /<command> user <用户> check <权限> [世界] - 检查用户是否拥有<权限>
+           /<command> user <用户> delete - 删除 <用户>
+           /<command> user <用户> add <权限> [世界] - 在[世界]给<用户>增加<权限>
+           /<command> user <用户> remove <权限> [世界] - 在[世界]删除<用户>的<权限>
+           /<command> user <用户> swap <权限> <目标权限> [世界] - 交换<权限>和<目标权限>在权限列表。可能是数字或权限本身
+           /<command> user <用户> timed add <权限> [持续时间] [世界] - 添加限时权限 <permissions> 给 <用户> 持续 [持续时间] 秒 ,在[世界]
+           /<command> user <用户> timed remove <权限> [世界] - 删除<用户>的限时权限 <权限> 在 [世界]
+           /<command> user <用户> get <选项> [世界] - 在[世界]获取<用户>的<选项>
+           /<command> user <用户> set <选项> <值> [世界] - 在[世界]给<用户>设置<选项>
+           /<command> user <用户> group list [世界] - 列出所有<用户>的组
+           /<command> user <用户> group add <分组> [世界] [持续时间] - 添加<分组>到<用户>
+           /<command> user <用户> group set <分组> [世界] - 设置<用户>到<分组>
+           /<command> user <用户> group remove <分组> [世界] - 从<分组>删除<用户>
+           /<command> users cleanup <分组> [界定] - 在特定分组清楚用户, 所有[界定]天内未登录的用户会被清除 (默认30天).
+           /<command> group <分组> swap <权限> <目标权限> [世界] - 交换 <权限> 和 <目标权限> 在权限列表。可能是数字或权限本身
+           /<command> groups list [世界] - 列出所有已注册的分组
+           /<command> groups - 列出所有已注册的分组（别名）
+           /<command> group - 列出所有已注册的分组（别名）
+           /<command> group <分组> weight [权重] - 打印或设置组的权重
+           /<command> group <分组> toggle debug - 对特定分组切换调试模式
+           /<command> group <分组> prefix [前缀] [世界] - 获取或设置 <分组> 前缀
+           /<command> group <分组> suffix [后缀] [世界] - 获取或设置 <分组> 后缀
+           /<command> group <分组> create [父级组] - 创建 <分组> 和/或设置 [父级组]
+           /<command> group <分组> delete - Remove <分组>
+           /<command> group <分组> parents [世界] - 列出<分组>的父级组  (别名)
+           /<command> group <分组> parents list [世界] - 列出<分组>的父级组
+           /<command> group <分组> parents set <父级组> [世界] - 设置 <分组> 的父级组(单个或逗号分隔的列表)
+           /<command> group <分组> parents add <父级组> [世界] - 添加 <分组> 的父级组 (单个或逗号分隔的列表)
+           /<command> group <分组> parents remove <父级组> [世界] - 删除 <分组> 的父级组 (单个或逗号分隔的列表)
+           /<command> group <分组> - 列出 <分组> 的所有权限 (别名)
+           /<command> group <分组> list [世界] - 列出 [世界]中 <分组> 的所有权限 
+           /<command> group <分组> add <权限> [世界] - 在[世界]中 添加 <权限> 到 <分组> 
+           /<command> group <分组> set <选项> <值> [世界] - 在 [世界] 设置 <选项> <值> 到 <分组> 
+           /<command> group <分组> remove <权限> [世界] - 在 [世界] 删除 <分组>的 <权限> 
+           /<command> group <分组> timed add <权限> [持续时间] [世界] - 添加限时 <权限> 到 <分组> 持续 [持续时间] 在 [世界]
+           /<command> group <分组> timed remove <权限> [世界] - 在 [世界] 删除<分组>的限时 <权限>
+           /<command> group <分组> users - 列出<分组>中的所有用户 
+           /<command> group <分组> user add <用户> [世界] - 添加 <用户> (单个或逗号分隔的列表) 到 <分组>
+           /<command> group <分组> user remove <用户> [世界] - 添加 <用户> (单个或逗号分隔的列表) 到 <分组>
+           /<command> default group [世界] - 打印默认组在指定的世界
+           /<command> set default group <分组> [世界] - 设置默认组在指定的世界
+           /<command> group <分组> rank [等级] [阶级组] - 获取或设置 <分组> [等级] [阶级组]
+           /<command> promote <用户> [阶级组] - 对[阶级组] 提升<用户>到下一阶级 
+           /<command> demote <用户> [阶级组] - 对[阶级组] 降级<用户>到上一阶级
+           /<command> worlds - 打印加载的世界
+           /<command> world <世界> - 打印 <世界> 继承信息
+           /<command> world <世界> inherit <父世界> - 设置 <父世界> 为 <世界> 的父世界
   promote:
-    description: Permission ladder promotion command.
+    description: 权限阶级升级指令
     usage: |
            Usage:
-           /<command> <user> - Promotes <user> to next group
+           /<command> <用户> - 提升<用户>到下一阶级
   demote:
-    description: Permission ladder demotion command.
+    description: 权限阶级降级指令
     usage: |
            Usage:
-           /<command> <user> - Demotes <user> to previous group
+           /<command> <用户> - 降级<用户>到上一阶级
 permissions:
     permissionsex.handler.injected:
-        description: Service permissions used by PEX for superperms bridge injection. DO NOT USE IT!
+        description: 服务权限使用PEX超级权限桥梁注入。不要使用它！
         default: false
