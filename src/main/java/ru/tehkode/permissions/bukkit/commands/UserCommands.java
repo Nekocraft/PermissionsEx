@@ -39,11 +39,11 @@ public class UserCommands extends PermissionsCommand {
 	@Command(name = "pex",
 			syntax = "users list",
 			permission = "permissions.manage.users",
-			description = "List all registered users")
+			description = "列出所有注册的用户")
 	public void usersList(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		PermissionUser[] users = PermissionsEx.getPermissionManager().getUsers();
 
-		sender.sendMessage(ChatColor.WHITE + "Currently registered users: ");
+		sender.sendMessage(ChatColor.WHITE + "当前注册的用户: ");
 		for (PermissionUser user : users) {
 			sender.sendMessage(" " + user.getName() + " " + ChatColor.DARK_GREEN + "[" + StringUtils.implode(user.getGroupsNames(), ", ") + "]");
 		}
@@ -52,7 +52,7 @@ public class UserCommands extends PermissionsCommand {
 	@Command(name = "pex",
 			syntax = "users",
 			permission = "permissions.manage.users",
-			description = "List all registered users (alias)",
+			description = "列出所有注册的用户 (同义词)",
 			isPrimary = true)
 	public void userListAlias(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		this.usersList(plugin, sender, args);
@@ -61,7 +61,7 @@ public class UserCommands extends PermissionsCommand {
 	@Command(name = "pex",
 			syntax = "user",
 			permission = "permissions.manage.users",
-			description = "List all registered users (alias)")
+			description = "列出所有注册的用户 (同义词)")
 	public void userListAnotherAlias(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		this.usersList(plugin, sender, args);
 	}
@@ -72,7 +72,7 @@ public class UserCommands extends PermissionsCommand {
 	@Command(name = "pex",
 			syntax = "user <user>",
 			permission = "permissions.manage.users.permissions.<user>",
-			description = "List user permissions (list alias)")
+			description = "列出用户的权限 (list 的同义词)")
 	public void userListAliasPermissions(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		String userName = this.autoCompletePlayerName(args.get("user"));
 		String worldName = this.autoCompleteWorldName(args.get("world"));
@@ -80,11 +80,11 @@ public class UserCommands extends PermissionsCommand {
 		PermissionUser user = PermissionsEx.getPermissionManager().getUser(userName);
 
 		if (user == null) {
-			sender.sendMessage(ChatColor.RED + "User does not exist");
+			sender.sendMessage(ChatColor.RED + "用户不存在");
 			return;
 		}
 
-		sender.sendMessage("'" + userName + "' is a member of:");
+		sender.sendMessage("'" + userName + "' 是一个成员在:");
 		printEntityInheritance(sender, user.getGroups());
 
 		for (String world : user.getAllGroups().keySet()) {
@@ -96,11 +96,11 @@ public class UserCommands extends PermissionsCommand {
 			printEntityInheritance(sender, user.getAllGroups().get(world));
 		}
 
-		sender.sendMessage(userName + "'s permissions:");
+		sender.sendMessage(userName + "的权限:");
 
 		this.sendMessage(sender, this.mapPermissions(worldName, user, 0));
 
-		sender.sendMessage(userName + "'s options:");
+		sender.sendMessage(userName + "的选项:");
 		for (Map.Entry<String, String> option : user.getOptions(worldName).entrySet()) {
 			sender.sendMessage("  " + option.getKey() + " = \"" + option.getValue() + "\"");
 		}
@@ -117,11 +117,11 @@ public class UserCommands extends PermissionsCommand {
 		PermissionUser user = PermissionsEx.getPermissionManager().getUser(userName);
 
 		if (user == null) {
-			sender.sendMessage(ChatColor.RED + "User does not exist");
+			sender.sendMessage(ChatColor.RED + "用户不存在");
 			return;
 		}
 
-		sender.sendMessage(userName + "'s permissions:");
+		sender.sendMessage(userName + "的权限:");
 
 		for (String permission : user.getPermissions(worldName)) {
 			sender.sendMessage("  " + permission);
@@ -132,17 +132,17 @@ public class UserCommands extends PermissionsCommand {
 	@Command(name = "pex",
 			syntax = "user <user> superperms",
 			permission = "permissions.manage.users.permissions.<user>",
-			description = "List user actual superperms")
+			description = "列出玩家的超级权限")
 	public void userListSuperPermissions(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		String userName = this.autoCompletePlayerName(args.get("user"));
 
 		Player player = Bukkit.getPlayer(userName);
 		if (player == null) {
-			sender.sendMessage(ChatColor.RED + "Player not found (offline?)");
+			sender.sendMessage(ChatColor.RED + "玩家不存在或不在线");
 			return;
 		}
 
-		sender.sendMessage(userName + "'s superperms:");
+		sender.sendMessage(userName + "的超级权限:");
 
 		for (PermissionAttachmentInfo info : player.getEffectivePermissions()) {
 			String pluginName = "built-in";
@@ -158,7 +158,7 @@ public class UserCommands extends PermissionsCommand {
 	@Command(name = "pex",
 			syntax = "user <user> prefix [newprefix] [world]",
 			permission = "permissions.manage.users.prefix.<user>",
-			description = "Get or set <user> prefix")
+			description = "获取或设置 <用户> 的前缀")
 	public void userPrefix(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		String userName = this.autoCompletePlayerName(args.get("user"));
 		String worldName = this.autoCompleteWorldName(args.get("world"));
@@ -166,7 +166,7 @@ public class UserCommands extends PermissionsCommand {
 		PermissionUser user = PermissionsEx.getPermissionManager().getUser(userName);
 
 		if (user == null) {
-			sender.sendMessage(ChatColor.RED + "User does not exist");
+			sender.sendMessage(ChatColor.RED + "用户不存在");
 			return;
 		}
 
@@ -174,13 +174,13 @@ public class UserCommands extends PermissionsCommand {
 			user.setPrefix(args.get("newprefix"), worldName);
 		}
 
-		sender.sendMessage(user.getName() + "'s prefix = \"" + user.getPrefix() + "\"");
+		sender.sendMessage(user.getName() + "的前缀是: \"" + user.getPrefix() + "\"");
 	}
 
 	@Command(name = "pex",
 			syntax = "user <user> suffix [newsuffix] [world]",
 			permission = "permissions.manage.users.suffix.<user>",
-			description = "Get or set <user> suffix")
+			description = "获取或设置 <用户> 的后缀")
 	public void userSuffix(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		String userName = this.autoCompletePlayerName(args.get("user"));
 		String worldName = this.autoCompleteWorldName(args.get("world"));
@@ -188,7 +188,7 @@ public class UserCommands extends PermissionsCommand {
 		PermissionUser user = PermissionsEx.getPermissionManager().getUser(userName);
 
 		if (user == null) {
-			sender.sendMessage(ChatColor.RED + "User does not exist");
+			sender.sendMessage(ChatColor.RED + "用户不存在");
 			return;
 		}
 
@@ -196,32 +196,32 @@ public class UserCommands extends PermissionsCommand {
 			user.setSuffix(args.get("newsuffix"), worldName);
 		}
 
-		sender.sendMessage(user.getName() + "'s suffix = \"" + user.getSuffix() + "\"");
+		sender.sendMessage(user.getName() + "的后缀是: \"" + user.getSuffix() + "\"");
 	}
 
 	@Command(name = "pex",
 			syntax = "user <user> toggle debug",
 			permission = "permissions.manage.<user>",
-			description = "Toggle debug only for <user>")
+			description = "切换单独调试模式对 <玩家>")
 	public void userToggleDebug(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		String userName = this.autoCompletePlayerName(args.get("user"));
 
 		PermissionUser user = PermissionsEx.getPermissionManager().getUser(userName);
 
 		if (user == null) {
-			sender.sendMessage(ChatColor.RED + "User does not exist");
+			sender.sendMessage(ChatColor.RED + "用户不存在");
 			return;
 		}
 
 		user.setDebug(!user.isDebug());
 
-		sender.sendMessage("Debug mode for user " + userName + " " + (user.isDebug() ? "enabled" : "disabled") + "!");
+		sender.sendMessage("调试模式已对 " + userName + " " + (user.isDebug() ? "开启" : "关闭") + "!");
 	}
 
 	@Command(name = "pex",
 			syntax = "user <user> check <permission> [world]",
 			permission = "permissions.manage.<user>",
-			description = "Checks player for <permission>")
+			description = "检查 <用户> 是否拥有 <权限>")
 	public void userCheckPermission(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		String userName = this.autoCompletePlayerName(args.get("user"));
 		String worldName = this.autoCompleteWorldName(args.get("world"));
@@ -229,7 +229,7 @@ public class UserCommands extends PermissionsCommand {
 		PermissionUser user = PermissionsEx.getPermissionManager().getUser(userName);
 
 		if (user == null) {
-			sender.sendMessage(ChatColor.RED + "User does not exist");
+			sender.sendMessage(ChatColor.RED + "用户不存在");
 			return;
 		}
 
@@ -238,16 +238,16 @@ public class UserCommands extends PermissionsCommand {
 		String permission = user.getMatchingExpression(args.get("permission"), worldName);
 
 		if (permission == null) {
-			sender.sendMessage("Player \"" + userName + "\" don't such have no permission");
+			sender.sendMessage("玩家 \"" + userName + "\" 没有此权限");
 		} else {
-			sender.sendMessage("Player \"" + userName + "\" have \"" + permission + "\" = " + user.explainExpression(permission));
+			sender.sendMessage("玩家 \"" + userName + "\" 有权限 \"" + permission + "\" = " + user.explainExpression(permission));
 		}
 	}
 
 	@Command(name = "pex",
 			syntax = "user <user> get <option> [world]",
 			permission = "permissions.manage.<user>",
-			description = "Toggle debug only for <user>")
+			description = "获取 <用户> 的 <选项> 值于 [世界]")
 	public void userGetOption(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		String userName = this.autoCompletePlayerName(args.get("user"));
 		String worldName = this.autoCompleteWorldName(args.get("world"));
@@ -255,7 +255,7 @@ public class UserCommands extends PermissionsCommand {
 		PermissionUser user = PermissionsEx.getPermissionManager().getUser(userName);
 
 		if (user == null) {
-			sender.sendMessage(ChatColor.RED + "User does not exist");
+			sender.sendMessage(ChatColor.RED + "用户不存在");
 			return;
 		}
 
@@ -263,37 +263,37 @@ public class UserCommands extends PermissionsCommand {
 
 		String value = user.getOption(args.get("option"), worldName, null);
 
-		sender.sendMessage("Player " + userName + " @ " + worldName + " option \"" + args.get("option") + "\" = \"" + value + "\"");
+		sender.sendMessage("用户 " + userName + " @ " + worldName + " 世界的选项 \"" + args.get("option") + "\" = \"" + value + "\"");
 	}
 
 	@Command(name = "pex",
 			syntax = "user <user> delete",
 			permission = "permissions.manage.users.<user>",
-			description = "Remove <user>")
+			description = "删除 <用户>")
 	public void userDelete(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		String userName = this.autoCompletePlayerName(args.get("user"));
 		PermissionUser user = PermissionsEx.getPermissionManager().getUser(userName);
 
 		if (user == null) {
-			sender.sendMessage(ChatColor.RED + "User does not exist");
+			sender.sendMessage(ChatColor.RED + "用户不存在");
 			return;
 		}
 
 		if (user.isVirtual()) {
-			sender.sendMessage(ChatColor.RED + "User is virtual");
+			sender.sendMessage(ChatColor.RED + "用户是虚拟的");
 		}
 
 		user.remove();
 
 		PermissionsEx.getPermissionManager().resetUser(userName);
 
-		sender.sendMessage(ChatColor.WHITE + "User \"" + user.getName() + "\" removed!");
+		sender.sendMessage(ChatColor.WHITE + "用户 \"" + user.getName() + "\" 已移除!");
 	}
 
 	@Command(name = "pex",
 			syntax = "user <user> add <permission> [world]",
 			permission = "permissions.manage.users.permissions.<user>",
-			description = "Add <permission> to <user> in [world]")
+			description = "添加 <权限> 给 <用户> 于 [世界]")
 	public void userAddPermission(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		String userName = this.autoCompletePlayerName(args.get("user"));
 		String worldName = this.autoCompleteWorldName(args.get("world"));
@@ -301,21 +301,21 @@ public class UserCommands extends PermissionsCommand {
 		PermissionUser user = PermissionsEx.getPermissionManager().getUser(userName);
 
 		if (user == null) {
-			sender.sendMessage(ChatColor.RED + "User does not exist");
+			sender.sendMessage(ChatColor.RED + "用户不存在");
 			return;
 		}
 
 		user.addPermission(args.get("permission"), worldName);
 
-		sender.sendMessage(ChatColor.WHITE + "Permission \"" + args.get("permission") + "\" added!");
+		sender.sendMessage(ChatColor.WHITE + "权限 \"" + args.get("permission") + "\" 已添加!");
 
-		this.informPlayer(plugin, userName, "Your permissions have been changed!");
+		this.informPlayer(plugin, userName, "你的权限已被更改");
 	}
 
 	@Command(name = "pex",
 			syntax = "user <user> remove <permission> [world]",
 			permission = "permissions.manage.users.permissions.<user>",
-			description = "Remove permission from <user> in [world]")
+			description = "删除 <用户> 的权限于 [世界]")
 	public void userRemovePermission(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		String userName = this.autoCompletePlayerName(args.get("user"));
 		String worldName = this.autoCompleteWorldName(args.get("world"));
@@ -323,7 +323,7 @@ public class UserCommands extends PermissionsCommand {
 		PermissionUser user = PermissionsEx.getPermissionManager().getUser(userName);
 
 		if (user == null) {
-			sender.sendMessage(ChatColor.RED + "User does not exist");
+			sender.sendMessage(ChatColor.RED + "用户不存在");
 			return;
 		}
 
@@ -332,14 +332,14 @@ public class UserCommands extends PermissionsCommand {
 		user.removePermission(permission, worldName);
 		user.removeTimedPermission(permission, worldName);
 
-		sender.sendMessage(ChatColor.WHITE + "Permission \"" + permission + "\" removed!");
-		this.informPlayer(plugin, userName, "Your permissions have been changed!");
+		sender.sendMessage(ChatColor.WHITE + "权限 \"" + permission + "\" 已移除!");
+		this.informPlayer(plugin, userName, "你的权限已被更改");
 	}
 
 	@Command(name = "pex",
 			syntax = "user <user> swap <permission> <targetPermission> [world]",
 			permission = "permissions.manage.users.permissions.<user>",
-			description = "Swap <permission> and <targetPermission> in permission list. Could be number or permission itself")
+			description = "在权限列表中交换 <权限> 与 <目标权限> . 可以是数字或者权限本身")
 	public void userSwapPermission(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		String userName = this.autoCompletePlayerName(args.get("user"));
 		String worldName = this.autoCompleteWorldName(args.get("world"));
@@ -347,7 +347,7 @@ public class UserCommands extends PermissionsCommand {
 		PermissionUser user = PermissionsEx.getPermissionManager().getUser(userName);
 
 		if (user == null) {
-			sender.sendMessage(ChatColor.RED + "User does not exist");
+			sender.sendMessage(ChatColor.RED + "用户不存在");
 			return;
 		}
 
@@ -364,7 +364,7 @@ public class UserCommands extends PermissionsCommand {
 
 			user.setPermissions(permissions, worldName);
 
-			sender.sendMessage("Permissions swapped!");
+			sender.sendMessage("权限已交换!");
 		} catch (Throwable e) {
 			sender.sendMessage(ChatColor.RED + "Error: " + e.getMessage());
 		}
@@ -373,7 +373,7 @@ public class UserCommands extends PermissionsCommand {
 	@Command(name = "pex",
 			syntax = "user <user> timed add <permission> [lifetime] [world]",
 			permission = "permissions.manage.users.permissions.timed.<user>",
-			description = "Add timed <permissions> to <user> for [lifetime] seconds in [world]")
+			description = "添加限时 <权限> 给 <用户> 生存 [生存时间] 秒在 [世界]")
 	public void userAddTimedPermission(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		String userName = this.autoCompletePlayerName(args.get("user"));
 		String worldName = this.autoCompleteWorldName(args.get("world"));
@@ -387,7 +387,7 @@ public class UserCommands extends PermissionsCommand {
 		PermissionUser user = PermissionsEx.getPermissionManager().getUser(userName);
 
 		if (user == null) {
-			sender.sendMessage(ChatColor.RED + "User does not exist");
+			sender.sendMessage(ChatColor.RED + "用户不存在");
 			return;
 		}
 
@@ -395,11 +395,11 @@ public class UserCommands extends PermissionsCommand {
 
 		user.addTimedPermission(permission, worldName, lifetime);
 
-		sender.sendMessage(ChatColor.WHITE + "Timed permission \"" + permission + "\" added!");
-		this.informPlayer(plugin, userName, "Your permissions have been changed!");
+		sender.sendMessage(ChatColor.WHITE + "已添加限时权限 \"" + permission + "\" !");
+		this.informPlayer(plugin, userName, "你的权限已被更改");
 
-		logger.info("User " + userName + " get timed permission \"" + args.get("permission") + "\" "
-				+ (lifetime > 0 ? "for " + lifetime + " seconds " : " ") + "from " + getSenderName(sender));
+		logger.info("用户 " + userName + " 得到限时权限 \"" + args.get("permission") + "\" "
+				+ (lifetime > 0 ? "持续 " + lifetime + " 秒 " : " ") + "授权: " + getSenderName(sender));
 	}
 
 	@Command(name = "pex",
@@ -414,20 +414,20 @@ public class UserCommands extends PermissionsCommand {
 		PermissionUser user = PermissionsEx.getPermissionManager().getUser(userName);
 
 		if (user == null) {
-			sender.sendMessage(ChatColor.RED + "User does not exist");
+			sender.sendMessage(ChatColor.RED + "用户不存在");
 			return;
 		}
 
 		user.removeTimedPermission(args.get("permission"), worldName);
 
 		sender.sendMessage(ChatColor.WHITE + "Timed permission \"" + permission + "\" removed!");
-		this.informPlayer(plugin, userName, "Your permissions have been changed!");
+		this.informPlayer(plugin, userName, "你的权限已被更改");
 	}
 
 	@Command(name = "pex",
 			syntax = "user <user> set <option> <value> [world]",
 			permission = "permissions.manage.users.permissions.<user>",
-			description = "Set <option> to <value> in [world]")
+			description = "设置 <选项> 为 <值> 在 [world]")
 	public void userSetOption(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		String userName = this.autoCompletePlayerName(args.get("user"));
 		String worldName = this.autoCompleteWorldName(args.get("world"));
@@ -435,7 +435,7 @@ public class UserCommands extends PermissionsCommand {
 		PermissionUser user = PermissionsEx.getPermissionManager().getUser(userName);
 
 		if (user == null) {
-			sender.sendMessage(ChatColor.RED + "User does not exist");
+			sender.sendMessage(ChatColor.RED + "用户不存在");
 			return;
 		}
 
@@ -443,12 +443,12 @@ public class UserCommands extends PermissionsCommand {
 
 
 		if (args.containsKey("value") && args.get("value").isEmpty()) {
-			sender.sendMessage(ChatColor.WHITE + "Option \"" + args.get("option") + "\" cleared!");
+			sender.sendMessage(ChatColor.WHITE + "选项 \"" + args.get("option") + "\" 已清除!");
 		} else {
-			sender.sendMessage(ChatColor.WHITE + "Option \"" + args.get("option") + "\" set!");
+			sender.sendMessage(ChatColor.WHITE + "选项 \"" + args.get("option") + "\" 已设置!");
 		}
 
-		this.informPlayer(plugin, userName, "Your permissions have been changed!");
+		this.informPlayer(plugin, userName, "你的权限已被更改");
 	}
 
 	/**
@@ -457,7 +457,7 @@ public class UserCommands extends PermissionsCommand {
 	@Command(name = "pex",
 			syntax = "user <user> group list [world]",
 			permission = "permissions.manage.membership.<user>",
-			description = "List all <user> groups")
+			description = "列出 <用户> 的所有组")
 	public void userListGroup(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		String userName = this.autoCompletePlayerName(args.get("user"));
 		String worldName = this.autoCompleteWorldName(args.get("world"));
@@ -465,7 +465,7 @@ public class UserCommands extends PermissionsCommand {
 		PermissionUser user = PermissionsEx.getPermissionManager().getUser(userName);
 
 		if (user == null) {
-			sender.sendMessage(ChatColor.RED + "User does not exist");
+			sender.sendMessage(ChatColor.RED + "用户不存在");
 			return;
 		}
 
@@ -487,7 +487,7 @@ public class UserCommands extends PermissionsCommand {
 		PermissionUser user = PermissionsEx.getPermissionManager().getUser(userName);
 
 		if (user == null) {
-			sender.sendMessage(ChatColor.RED + "User does not exist");
+			sender.sendMessage(ChatColor.RED + "用户不存在");
 			return;
 		}
 
@@ -497,7 +497,7 @@ public class UserCommands extends PermissionsCommand {
 
 				user.addGroup(groupName, worldName, lifetime);
 			} catch (NumberFormatException e) {
-				sender.sendMessage(ChatColor.RED + "Group lifetime should be number!");
+				sender.sendMessage(ChatColor.RED + "组存活时间必须是数字!");
 				return;
 			}
 
@@ -506,14 +506,14 @@ public class UserCommands extends PermissionsCommand {
 		}
 
 
-		sender.sendMessage(ChatColor.WHITE + "User added to group \"" + groupName + "\"!");
-		this.informPlayer(plugin, userName, "You are assigned to \"" + groupName + "\" group");
+		sender.sendMessage(ChatColor.WHITE + "用户已添加到组 \"" + groupName + "\"!");
+		this.informPlayer(plugin, userName, "你已经加入 \"" + groupName + "\" 组");
 	}
 
 	@Command(name = "pex",
 			syntax = "user <user> group set <group> [world]",
 			permission = "",
-			description = "Set <group> for <user>")
+			description = "设置 <用户> 的 <组> ")
 	public void userSetGroup(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		PermissionManager manager = PermissionsEx.getPermissionManager();
 
@@ -521,7 +521,7 @@ public class UserCommands extends PermissionsCommand {
 		String worldName = this.autoCompleteWorldName(args.get("world"));
 
 		if (user == null) {
-			sender.sendMessage(ChatColor.RED + "User does not exist");
+			sender.sendMessage(ChatColor.RED + "用户不存在");
 			return;
 		}
 
@@ -535,7 +535,7 @@ public class UserCommands extends PermissionsCommand {
 
 			for (int i = 0; i < groupsNames.length; i++) {
 				if (sender instanceof Player && !manager.has((Player) sender, "permissions.manage.membership." + groupsNames[i].toLowerCase())) {
-					sender.sendMessage(ChatColor.RED + "Don't have enough permission for group " + groupsNames[i]);
+					sender.sendMessage(ChatColor.RED + "没有足够的权限访问组 " + groupsNames[i]);
 					return;
 				}
 
@@ -549,21 +549,21 @@ public class UserCommands extends PermissionsCommand {
 				groups = new PermissionGroup[]{manager.getGroup(groupName)};
 
 				if (sender instanceof Player && !manager.has((Player) sender, "permissions.manage.membership." + groupName.toLowerCase())) {
-					sender.sendMessage(ChatColor.RED + "Don't have enough permission for group " + groupName);
+					sender.sendMessage(ChatColor.RED + "没有足够的权限访问组" + groupName);
 					return;
 				}
 
 			} else {
-				sender.sendMessage(ChatColor.RED + "No groups set!");
+				sender.sendMessage(ChatColor.RED + "没有组被设置!");
 				return;
 			}
 		}
 
 		if (groups.length > 0) {
 			user.setGroups(groups, worldName);
-			sender.sendMessage(ChatColor.WHITE + "User groups set!");
+			sender.sendMessage(ChatColor.WHITE + "已设置用户的组!");
 		} else {
-			sender.sendMessage(ChatColor.RED + "No groups set!");
+			sender.sendMessage(ChatColor.RED + "没有组被设置!");
 		}
 
 		this.informPlayer(plugin, user.getName(), "You are now only in \"" + groupName + "\" group");
@@ -572,7 +572,7 @@ public class UserCommands extends PermissionsCommand {
 	@Command(name = "pex",
 			syntax = "user <user> group remove <group> [world]",
 			permission = "permissions.manage.membership.<group>",
-			description = "Remove <user> from <group>")
+			description = "从 <组> 中移除 <用户> ")
 	public void userRemoveGroup(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		String userName = this.autoCompletePlayerName(args.get("user"));
 		String groupName = this.autoCompleteGroupName(args.get("group"));
@@ -581,21 +581,21 @@ public class UserCommands extends PermissionsCommand {
 		PermissionUser user = PermissionsEx.getPermissionManager().getUser(userName);
 
 		if (user == null) {
-			sender.sendMessage(ChatColor.RED + "User does not exist");
+			sender.sendMessage(ChatColor.RED + "用户不存在");
 			return;
 		}
 
 		user.removeGroup(groupName, worldName);
 
-		sender.sendMessage(ChatColor.WHITE + "User removed from group " + groupName + "!");
+		sender.sendMessage(ChatColor.WHITE + "用户已从 " + groupName + "中移除!");
 
-		this.informPlayer(plugin, userName, "You were removed from \"" + groupName + "\" group");
+		this.informPlayer(plugin, userName, "你已经从 \"" + groupName + "\" 组中被移除");
 	}
 
 	@Command(name = "pex",
 			syntax = "users cleanup <group> [threshold]",
 			permission = "permissions.manage.users.cleanup",
-			description = "Clean users of specified group, which last login was before threshold (in days). By default threshold is 30 days.")
+			description = "清除特定组中的用户, 当最后登录的间隔大于指定的天数时. 默认的间隔是30天.")
 	public void usersCleanup(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		long threshold = 2304000;
 
@@ -605,7 +605,7 @@ public class UserCommands extends PermissionsCommand {
 			try {
 				threshold = Integer.parseInt(args.get("threshold")) * 86400; // 86400 - seconds in one day
 			} catch (NumberFormatException e) {
-				sender.sendMessage(ChatColor.RED + "Threshold should be number (in days)");
+				sender.sendMessage(ChatColor.RED + "间隔必须是一个数字 (天)");
 				return;
 			}
 		}
@@ -622,6 +622,6 @@ public class UserCommands extends PermissionsCommand {
 			}
 		}
 
-		sender.sendMessage("Cleaned " + removed + " users");
+		sender.sendMessage("清除了 " + removed + " 个用户");
 	}
 }

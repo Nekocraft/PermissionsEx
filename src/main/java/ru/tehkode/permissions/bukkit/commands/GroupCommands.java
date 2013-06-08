@@ -38,16 +38,16 @@ public class GroupCommands extends PermissionsCommand {
 	@Command(name = "pex",
 			syntax = "groups list [world]",
 			permission = "permissions.manage.groups.list",
-			description = "List all registered groups")
+			description = "列出所有注册的组")
 	public void groupsList(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		PermissionGroup[] groups = PermissionsEx.getPermissionManager().getGroups();
 		String worldName = this.autoCompleteWorldName(args.get("world"));
 
-		sender.sendMessage(ChatColor.WHITE + "Registered groups: ");
+		sender.sendMessage(ChatColor.WHITE + "已注册的组: ");
 		for (PermissionGroup group : groups) {
 			String rank = "";
 			if (group.isRanked()) {
-				rank = " (rank: " + group.getRank() + "@" + group.getRankLadder() + ") ";
+				rank = " (等级: " + group.getRank() + "@" + group.getRankLadder() + ") ";
 			}
 
 			sender.sendMessage(String.format("  %s %s %s %s[%s]", group.getName(), " #" + group.getWeight(), rank, ChatColor.DARK_GREEN, StringUtils.implode(group.getParentGroupsNames(worldName), ", ")));
@@ -57,7 +57,7 @@ public class GroupCommands extends PermissionsCommand {
 	@Command(name = "pex",
 			syntax = "groups",
 			permission = "permissions.manage.groups.list",
-			description = "List all registered groups (alias)")
+			description = "列出所有注册的组 (同义词)")
 	public void groupsListAlias(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		this.groupsList(plugin, sender, args);
 	}
@@ -65,7 +65,7 @@ public class GroupCommands extends PermissionsCommand {
 	@Command(name = "pex",
 			syntax = "group",
 			permission = "permissions.manage.groups.list",
-			description = "List all registered groups (alias)")
+			description = "列出所有注册的组 (同义词)")
 	public void groupsListAnotherAlias(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		this.groupsList(plugin, sender, args);
 	}
@@ -73,14 +73,14 @@ public class GroupCommands extends PermissionsCommand {
 	@Command(name = "pex",
 			syntax = "group <group> weight [weight]",
 			permission = "permissions.manage.groups.weight.<group>",
-			description = "Print or set group weight")
+			description = "获取或设置组的权重")
 	public void groupPrintSetWeight(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		String groupName = this.autoCompleteGroupName(args.get("group"));
 
 		PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(args.get("group"));
 
 		if (group == null) {
-			sender.sendMessage(ChatColor.RED + "Group doesn't exist");
+			sender.sendMessage(ChatColor.RED + "组不存在");
 			return;
 		}
 
@@ -88,7 +88,7 @@ public class GroupCommands extends PermissionsCommand {
 			try {
 				group.setWeight(Integer.parseInt(args.get("weight")));
 			} catch (NumberFormatException e) {
-				sender.sendMessage("Error! Weight should be integer value.");
+				sender.sendMessage("错误! 权重必须是一个整数.");
 				return;
 			}
 		}
@@ -99,14 +99,14 @@ public class GroupCommands extends PermissionsCommand {
 	@Command(name = "pex",
 			syntax = "group <group> toggle debug",
 			permission = "permissions.manage.groups.debug.<group>",
-			description = "Toggle debug mode for group")
+			description = "切换单独调试模式对 <组>")
 	public void groupToggleDebug(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		String groupName = this.autoCompleteGroupName(args.get("group"));
 
 		PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(args.get("group"));
 
 		if (group == null) {
-			sender.sendMessage(ChatColor.RED + "Group doesn't exist");
+			sender.sendMessage(ChatColor.RED + "组不存在");
 			return;
 		}
 
@@ -118,7 +118,7 @@ public class GroupCommands extends PermissionsCommand {
 	@Command(name = "pex",
 			syntax = "group <group> prefix [newprefix] [world]",
 			permission = "permissions.manage.groups.prefix.<group>",
-			description = "Get or set <group> prefix.")
+			description = "获取或设置 <组> 的前缀.")
 	public void groupPrefix(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		String groupName = this.autoCompleteGroupName(args.get("group"));
 		String worldName = this.autoCompleteWorldName(args.get("world"));
@@ -126,7 +126,7 @@ public class GroupCommands extends PermissionsCommand {
 		PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(args.get("group"));
 
 		if (group == null) {
-			sender.sendMessage(ChatColor.RED + "Group doesn't exist");
+			sender.sendMessage(ChatColor.RED + "组不存在");
 			return;
 		}
 
@@ -134,13 +134,13 @@ public class GroupCommands extends PermissionsCommand {
 			group.setPrefix(args.get("newprefix"), worldName);
 		}
 
-		sender.sendMessage(group.getName() + "'s prefix = \"" + group.getPrefix(worldName) + "\"");
+		sender.sendMessage(group.getName() + "的前缀: " + group.getPrefix(worldName) + "\"");
 	}
 
 	@Command(name = "pex",
 			syntax = "group <group> suffix [newsuffix] [world]",
 			permission = "permissions.manage.groups.suffix.<group>",
-			description = "Get or set <group> suffix")
+			description = "获取或设置 <group> 的后缀")
 	public void groupSuffix(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		String groupName = this.autoCompleteGroupName(args.get("group"));
 		String worldName = this.autoCompleteWorldName(args.get("world"));
@@ -148,7 +148,7 @@ public class GroupCommands extends PermissionsCommand {
 		PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(args.get("group"));
 
 		if (group == null) {
-			sender.sendMessage(ChatColor.RED + "Group doesn't exist");
+			sender.sendMessage(ChatColor.RED + "组不存在");
 			return;
 		}
 
@@ -156,23 +156,23 @@ public class GroupCommands extends PermissionsCommand {
 			group.setSuffix(args.get("newsuffix"), worldName);
 		}
 
-		sender.sendMessage(group.getName() + "'s suffix is = \"" + group.getSuffix(worldName) + "\"");
+		sender.sendMessage(group.getName() + "的后缀: " + group.getSuffix(worldName) + "\"");
 	}
 
 	@Command(name = "pex",
 			syntax = "group <group> create [parents]",
 			permission = "permissions.manage.groups.create.<group>",
-			description = "Create <group> and/or set [parents]")
+			description = "创建 <组> 和/或 设置 [父级]")
 	public void groupCreate(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(args.get("group"));
 
 		if (group == null) {
-			sender.sendMessage(ChatColor.RED + "Group doesn't exist");
+			sender.sendMessage(ChatColor.RED + "组不存在");
 			return;
 		}
 
 		if (!group.isVirtual()) {
-			sender.sendMessage(ChatColor.RED + "Group " + args.get("group") + " already exists");
+			sender.sendMessage(ChatColor.RED + "组 " + args.get("group") + " 已经存在");
 			return;
 		}
 
@@ -187,7 +187,7 @@ public class GroupCommands extends PermissionsCommand {
 			group.setParentGroups(groups.toArray(new PermissionGroup[0]), null);
 		}
 
-		sender.sendMessage(ChatColor.WHITE + "Group " + group.getName() + " created!");
+		sender.sendMessage(ChatColor.WHITE + "组 " + group.getName() + " 已创建!");
 
 		group.save();
 	}
@@ -195,18 +195,18 @@ public class GroupCommands extends PermissionsCommand {
 	@Command(name = "pex",
 			syntax = "group <group> delete",
 			permission = "permissions.manage.groups.remove.<group>",
-			description = "Remove <group>")
+			description = "删除 <组>")
 	public void groupDelete(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		String groupName = this.autoCompleteGroupName(args.get("group"));
 
 		PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(groupName);
 
 		if (group == null) {
-			sender.sendMessage(ChatColor.RED + "Group doesn't exist");
+			sender.sendMessage(ChatColor.RED + "组不存在");
 			return;
 		}
 
-		sender.sendMessage(ChatColor.WHITE + "Group " + group.getName() + " removed!");
+		sender.sendMessage(ChatColor.WHITE + "组 " + group.getName() + " 已删除!");
 
 		group.remove();
 		PermissionsEx.getPermissionManager().resetGroup(group.getName());
@@ -219,7 +219,7 @@ public class GroupCommands extends PermissionsCommand {
 	@Command(name = "pex",
 			syntax = "group <group> parents [world]",
 			permission = "permissions.manage.groups.inheritance.<group>",
-			description = "List parents for <group> (alias)")
+			description = "列出 <的> 父级 (同义词)")
 	public void groupListParentsAlias(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		this.groupListParents(plugin, sender, args);
 	}
@@ -227,7 +227,7 @@ public class GroupCommands extends PermissionsCommand {
 	@Command(name = "pex",
 			syntax = "group <group> parents list [world]",
 			permission = "permissions.manage.groups.inheritance.<group>",
-			description = "List parents for <group>")
+			description = "列出 <的> 父级")
 	public void groupListParents(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		String groupName = this.autoCompleteGroupName(args.get("group"));
 		String worldName = this.autoCompleteWorldName(args.get("world"));
@@ -235,16 +235,16 @@ public class GroupCommands extends PermissionsCommand {
 		PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(groupName);
 
 		if (group == null) {
-			sender.sendMessage(ChatColor.RED + "Group doesn't exist");
+			sender.sendMessage(ChatColor.RED + "组不存在");
 			return;
 		}
 
 		if (group.getParentGroups(worldName).length == 0) {
-			sender.sendMessage(ChatColor.RED + "Group " + group.getName() + " doesn't have parents");
+			sender.sendMessage(ChatColor.RED + "组 " + group.getName() + " 没有父级");
 			return;
 		}
 
-		sender.sendMessage("Group " + group.getName() + " parents:");
+		sender.sendMessage("组的 " + group.getName() + " 父级:");
 
 		for (PermissionGroup parent : group.getParentGroups(worldName)) {
 			sender.sendMessage("  " + parent.getName());
@@ -255,7 +255,7 @@ public class GroupCommands extends PermissionsCommand {
 	@Command(name = "pex",
 			syntax = "group <group> parents set <parents> [world]",
 			permission = "permissions.manage.groups.inheritance.<group>",
-			description = "Set parent(s) for <group> (single or comma-separated list)")
+			description = "设置 <组> 的父级 (单个或逗号间隔的列表)")
 	public void groupSetParents(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		String groupName = this.autoCompleteGroupName(args.get("group"));
 		String worldName = this.autoCompleteWorldName(args.get("world"));
@@ -263,7 +263,7 @@ public class GroupCommands extends PermissionsCommand {
 		PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(groupName);
 
 		if (group == null) {
-			sender.sendMessage(ChatColor.RED + "Group doesn't exist");
+			sender.sendMessage(ChatColor.RED + "组不存在");
 			return;
 		}
 
@@ -281,7 +281,7 @@ public class GroupCommands extends PermissionsCommand {
 
 			group.setParentGroups(groups.toArray(new PermissionGroup[0]), worldName);
 
-			sender.sendMessage(ChatColor.WHITE + "Group " + group.getName() + " inheritance updated!");
+			sender.sendMessage(ChatColor.WHITE + "组 " + group.getName() + " 的继承更新!");
 
 			group.save();
 		}
@@ -290,7 +290,7 @@ public class GroupCommands extends PermissionsCommand {
 	@Command(name = "pex",
 			syntax = "group <group> parents add <parents> [world]",
 			permission = "permissions.manage.groups.inheritance.<group>",
-			description = "Set parent(s) for <group> (single or comma-separated list)")
+			description = "添加 <组> 的父级 (单个或逗号间隔的列表)")
 	public void groupAddParents(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		String groupName = this.autoCompleteGroupName(args.get("group"));
 		String worldName = this.autoCompleteWorldName(args.get("world"));
@@ -298,7 +298,7 @@ public class GroupCommands extends PermissionsCommand {
 		PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(groupName);
 
 		if (group == null) {
-			sender.sendMessage(ChatColor.RED + "Group doesn't exist");
+			sender.sendMessage(ChatColor.RED + "组不存在");
 			return;
 		}
 
@@ -316,7 +316,7 @@ public class GroupCommands extends PermissionsCommand {
 
 			group.setParentGroups(groups.toArray(new PermissionGroup[0]), worldName);
 
-			sender.sendMessage(ChatColor.WHITE + "Group " + group.getName() + " inheritance updated!");
+			sender.sendMessage(ChatColor.WHITE + "组 " + group.getName() + " 的继承已更新!");
 
 			group.save();
 		}
@@ -325,7 +325,7 @@ public class GroupCommands extends PermissionsCommand {
 	@Command(name = "pex",
 			syntax = "group <group> parents remove <parents> [world]",
 			permission = "permissions.manage.groups.inheritance.<group>",
-			description = "Set parent(s) for <group> (single or comma-separated list)")
+			description = "删除 <组> 的父级 (单个或逗号间隔的列表)")
 	public void groupRemoveParents(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		String groupName = this.autoCompleteGroupName(args.get("group"));
 		String worldName = this.autoCompleteWorldName(args.get("world"));
@@ -333,7 +333,7 @@ public class GroupCommands extends PermissionsCommand {
 		PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(groupName);
 
 		if (group == null) {
-			sender.sendMessage(ChatColor.RED + "Group doesn't exist");
+			sender.sendMessage(ChatColor.RED + "组不存在");
 			return;
 		}
 
@@ -349,7 +349,7 @@ public class GroupCommands extends PermissionsCommand {
 
 			group.setParentGroups(groups.toArray(new PermissionGroup[groups.size()]), worldName);
 
-			sender.sendMessage(ChatColor.WHITE + "Group " + group.getName() + " inheritance updated!");
+			sender.sendMessage(ChatColor.WHITE + "组 " + group.getName() + " 的继承已更新!");
 
 			group.save();
 		}
@@ -361,7 +361,7 @@ public class GroupCommands extends PermissionsCommand {
 	@Command(name = "pex",
 			syntax = "group <group>",
 			permission = "permissions.manage.groups.permissions.<group>",
-			description = "List all <group> permissions (alias)")
+			description = "列出 <组> 的所有权限 (同义词)")
 	public void groupListAliasPermissions(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		this.groupListPermissions(plugin, sender, args);
 	}
@@ -369,7 +369,7 @@ public class GroupCommands extends PermissionsCommand {
 	@Command(name = "pex",
 			syntax = "group <group> list [world]",
 			permission = "permissions.manage.groups.permissions.<group>",
-			description = "List all <group> permissions in [world]")
+			description = "列出 <组> 的所有权限于 [世界]")
 	public void groupListPermissions(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		String groupName = this.autoCompleteGroupName(args.get("group"));
 		String worldName = this.autoCompleteWorldName(args.get("world"));
@@ -377,11 +377,11 @@ public class GroupCommands extends PermissionsCommand {
 		PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(groupName);
 
 		if (group == null) {
-			sender.sendMessage(ChatColor.RED + "Group doesn't exist");
+			sender.sendMessage(ChatColor.RED + "组不存在");
 			return;
 		}
 
-		sender.sendMessage("'" + groupName + "' inherits the following groups:");
+		sender.sendMessage("'" + groupName + "' 继承于:");
 		printEntityInheritance(sender, group.getParentGroups());
 
 		for (String world : group.getAllParentGroups().keySet()) {
@@ -393,10 +393,10 @@ public class GroupCommands extends PermissionsCommand {
 			printEntityInheritance(sender, group.getAllParentGroups().get(world));
 		}
 
-		sender.sendMessage("Group " + group.getName() + "'s permissions:");
+		sender.sendMessage("组 " + group.getName() + "的权限:");
 		this.sendMessage(sender, this.mapPermissions(worldName, group, 0));
 
-		sender.sendMessage("Group " + group.getName() + "'s Options: ");
+		sender.sendMessage("组 " + group.getName() + "的选项: ");
 		for (Map.Entry<String, String> option : group.getOptions(worldName).entrySet()) {
 			sender.sendMessage("  " + option.getKey() + " = \"" + option.getValue() + "\"");
 		}
@@ -405,7 +405,7 @@ public class GroupCommands extends PermissionsCommand {
 	@Command(name = "pex",
 			syntax = "group <group> add <permission> [world]",
 			permission = "permissions.manage.groups.permissions.<group>",
-			description = "Add <permission> to <group> in [world]")
+			description = "添加 <权限> 给 <组> 与 [世界]")
 	public void groupAddPermission(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		String groupName = this.autoCompleteGroupName(args.get("group"));
 		String worldName = this.autoCompleteWorldName(args.get("world"));
@@ -413,21 +413,21 @@ public class GroupCommands extends PermissionsCommand {
 		PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(groupName);
 
 		if (group == null) {
-			sender.sendMessage(ChatColor.RED + "Group doesn't exist");
+			sender.sendMessage(ChatColor.RED + "组不存在");
 			return;
 		}
 
 		group.addPermission(args.get("permission"), worldName);
 
-		sender.sendMessage(ChatColor.WHITE + "Permission \"" + args.get("permission") + "\" added to " + group.getName() + " !");
+		sender.sendMessage(ChatColor.WHITE + "已添加权限 \"" + args.get("permission") + "\" 给 " + group.getName() + " !");
 
-		this.informGroup(plugin, group, "Your permissions have been changed");
+		this.informGroup(plugin, group, "你的权限已被更改");
 	}
 
 	@Command(name = "pex",
 			syntax = "group <group> set <option> <value> [world]",
 			permission = "permissions.manage.groups.permissions.<group>",
-			description = "Set <option> <value> for <group> in [world]")
+			description = "设置 <选项> 为 <值> 对 <group> 于 [世界]")
 	public void groupSetOption(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		String groupName = this.autoCompleteGroupName(args.get("group"));
 		String worldName = this.autoCompleteWorldName(args.get("world"));
@@ -435,16 +435,16 @@ public class GroupCommands extends PermissionsCommand {
 		PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(groupName);
 
 		if (group == null) {
-			sender.sendMessage(ChatColor.RED + "Group doesn't exist");
+			sender.sendMessage(ChatColor.RED + "组不存在");
 			return;
 		}
 
 		group.setOption(args.get("option"), args.get("value"), worldName);
 
 		if (args.containsKey("value") && args.get("value").isEmpty()) {
-			sender.sendMessage(ChatColor.WHITE + "Option \"" + args.get("option") + "\" cleared!");
+			sender.sendMessage(ChatColor.WHITE + "选项 \"" + args.get("option") + "\" 已清除!");
 		} else {
-			sender.sendMessage(ChatColor.WHITE + "Option \"" + args.get("option") + "\" set!");
+			sender.sendMessage(ChatColor.WHITE + "选项 \"" + args.get("option") + "\" 已设置!");
 		}
 
 		this.informGroup(plugin, group, "Your permissions has been changed");
@@ -453,7 +453,7 @@ public class GroupCommands extends PermissionsCommand {
 	@Command(name = "pex",
 			syntax = "group <group> remove <permission> [world]",
 			permission = "permissions.manage.groups.permissions.<group>",
-			description = "Remove <permission> from <group> in [world]")
+			description = "删除 <权限> 从 <组> 于 [世界]")
 	public void groupRemovePermission(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		String groupName = this.autoCompleteGroupName(args.get("group"));
 		String worldName = this.autoCompleteWorldName(args.get("world"));
@@ -461,7 +461,7 @@ public class GroupCommands extends PermissionsCommand {
 		PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(groupName);
 
 		if (group == null) {
-			sender.sendMessage(ChatColor.RED + "Group doesn't exist");
+			sender.sendMessage(ChatColor.RED + "组不存在");
 			return;
 		}
 
@@ -470,15 +470,15 @@ public class GroupCommands extends PermissionsCommand {
 		group.removePermission(permission, worldName);
 		group.removeTimedPermission(permission, worldName);
 
-		sender.sendMessage(ChatColor.WHITE + "Permission \"" + permission + "\" removed from " + group.getName() + " !");
+		sender.sendMessage(ChatColor.WHITE + "已移除权限 \"" + permission + "\" 从 " + group.getName() + " !");
 
-		this.informGroup(plugin, group, "Your permissions have been changed");
+		this.informGroup(plugin, group, "你的权限已更改");
 	}
 
 	@Command(name = "pex",
 			syntax = "group <group> swap <permission> <targetPermission> [world]",
 			permission = "permissions.manage.groups.permissions.<group>",
-			description = "Swap <permission> and <targetPermission> in permission list. Could be number or permission itself")
+			description = "交换权限列表中的 <权限> 和 <目标权限> . 可以是数字或者权限本身")
 	public void userSwapPermission(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		String groupName = this.autoCompleteGroupName(args.get("group"));
 		String worldName = this.autoCompleteWorldName(args.get("world"));
@@ -486,7 +486,7 @@ public class GroupCommands extends PermissionsCommand {
 		PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(groupName);
 
 		if (group == null) {
-			sender.sendMessage(ChatColor.RED + "Group doesn't exist");
+			sender.sendMessage(ChatColor.RED + "组不存在");
 			return;
 		}
 
@@ -504,7 +504,7 @@ public class GroupCommands extends PermissionsCommand {
 
 			group.setPermissions(permissions, worldName);
 
-			sender.sendMessage("Permissions swapped!");
+			sender.sendMessage("权限已交换!");
 		} catch (Throwable e) {
 			sender.sendMessage(ChatColor.RED + "Error: " + e.getMessage());
 		}
@@ -513,7 +513,7 @@ public class GroupCommands extends PermissionsCommand {
 	@Command(name = "pex",
 			syntax = "group <group> timed add <permission> [lifetime] [world]",
 			permission = "permissions.manage.groups.permissions.timed.<group>",
-			description = "Add timed <permission> to <group> with [lifetime] in [world]")
+			description = "添加限时 <权限> 给 <组> 存活 [存活时间] 与 [世界]")
 	public void groupAddTimedPermission(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		String groupName = this.autoCompleteGroupName(args.get("group"));
 		String worldName = this.autoCompleteWorldName(args.get("world"));
@@ -527,23 +527,23 @@ public class GroupCommands extends PermissionsCommand {
 		PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(groupName);
 
 		if (group == null) {
-			sender.sendMessage(ChatColor.RED + "Group does not exist");
+			sender.sendMessage(ChatColor.RED + "组不存在");
 			return;
 		}
 
 		group.addTimedPermission(args.get("permission"), worldName, lifetime);
 
 		sender.sendMessage(ChatColor.WHITE + "Timed permission added!");
-		this.informGroup(plugin, group, "Your permissions have been changed!");
+		this.informGroup(plugin, group, "你的权限已更改!");
 
-		logger.info("Group " + groupName + " get timed permission \"" + args.get("permission") + "\" "
-				+ (lifetime > 0 ? "for " + lifetime + " seconds " : " ") + "from " + getSenderName(sender));
+		logger.info("组 " + groupName + " 获得了限时权限 \"" + args.get("permission") + "\" "
+				+ (lifetime > 0 ? "持续 " + lifetime + " 秒 " : " ") + "from " + getSenderName(sender));
 	}
 
 	@Command(name = "pex",
 			syntax = "group <group> timed remove <permission> [world]",
 			permission = "permissions.manage.groups.permissions.timed.<group>",
-			description = "Remove timed <permissions> for <group> in [world]")
+			description = "删除限时权限 <权限> 对 <组> 与 [世界]")
 	public void groupRemoveTimedPermission(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		String groupName = this.autoCompleteGroupName(args.get("group"));
 		String worldName = this.autoCompleteWorldName(args.get("world"));
@@ -551,14 +551,14 @@ public class GroupCommands extends PermissionsCommand {
 		PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(groupName);
 
 		if (group == null) {
-			sender.sendMessage(ChatColor.RED + "Group does not exist");
+			sender.sendMessage(ChatColor.RED + "组不存在");
 			return;
 		}
 
 		group.removeTimedPermission(args.get("permission"), worldName);
 
-		sender.sendMessage(ChatColor.WHITE + "Timed permission \"" + args.get("permission") + "\" removed!");
-		this.informGroup(plugin, group, "Your permissions have been changed!");
+		sender.sendMessage(ChatColor.WHITE + "限时权限 \"" + args.get("permission") + "\" 已删除!");
+		this.informGroup(plugin, group, "你的权限已更改!");
 	}
 
 	/**
@@ -567,17 +567,17 @@ public class GroupCommands extends PermissionsCommand {
 	@Command(name = "pex",
 			syntax = "group <group> users",
 			permission = "permissions.manage.membership.<group>",
-			description = "List all users in <group>")
+			description = "列出 <组> 中的所有用户")
 	public void groupUsersList(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		String groupName = this.autoCompleteGroupName(args.get("group"));
 
 		PermissionUser[] users = PermissionsEx.getPermissionManager().getUsers(groupName);
 
 		if (users == null || users.length == 0) {
-			sender.sendMessage(ChatColor.RED + "Group doesn't exist or empty");
+			sender.sendMessage(ChatColor.RED + "组不存在或为空");
 		}
 
-		sender.sendMessage("Group " + groupName + " users:");
+		sender.sendMessage("组 " + groupName + " 的用户:");
 
 		for (PermissionUser user : users) {
 			sender.sendMessage("   " + user.getName());
@@ -587,7 +587,7 @@ public class GroupCommands extends PermissionsCommand {
 	@Command(name = "pex",
 			syntax = "group <group> user add <user> [world]",
 			permission = "permissions.manage.membership.<group>",
-			description = "Add <user> (single or comma-separated list) to <group>")
+			description = "添加 <用户> 到组(单个或逗号分隔的)")
 	public void groupUsersAdd(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		String groupName = this.autoCompleteGroupName(args.get("group"));
 		String worldName = this.autoCompleteWorldName(args.get("world"));
@@ -605,21 +605,21 @@ public class GroupCommands extends PermissionsCommand {
 			PermissionUser user = PermissionsEx.getPermissionManager().getUser(userName);
 
 			if (user == null) {
-				sender.sendMessage(ChatColor.RED + "User does not exist");
+				sender.sendMessage(ChatColor.RED + "用户不存在");
 				return;
 			}
 
 			user.addGroup(groupName, worldName);
 
-			sender.sendMessage(ChatColor.WHITE + "User " + user.getName() + " added to " + groupName + " !");
-			this.informPlayer(plugin, userName, "You are assigned to \"" + groupName + "\" group");
+			sender.sendMessage(ChatColor.WHITE + "用户 " + user.getName() + " 已被添加到组 " + groupName + " !");
+			this.informPlayer(plugin, userName, "你加入了 \"" + groupName + "\" 组");
 		}
 	}
 
 	@Command(name = "pex",
 			syntax = "group <group> user remove <user> [world]",
 			permission = "permissions.manage.membership.<group>",
-			description = "Add <user> (single or comma-separated list) to <group>")
+			description = "从组中删除 <用户> (单个或逗号分隔的)")
 	public void groupUsersRemove(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		String groupName = this.autoCompleteGroupName(args.get("group"));
 		String worldName = this.autoCompleteWorldName(args.get("world"));
@@ -637,14 +637,14 @@ public class GroupCommands extends PermissionsCommand {
 			PermissionUser user = PermissionsEx.getPermissionManager().getUser(userName);
 
 			if (user == null) {
-				sender.sendMessage(ChatColor.RED + "User does not exist");
+				sender.sendMessage(ChatColor.RED + "用户不存在");
 				return;
 			}
 
 			user.removeGroup(groupName, worldName);
 
-			sender.sendMessage(ChatColor.WHITE + "User " + user.getName() + " removed from " + args.get("group") + " !");
-			this.informPlayer(plugin, userName, "You were removed from \"" + groupName + "\" group");
+			sender.sendMessage(ChatColor.WHITE + "用户 " + user.getName() + " 已从组 " + args.get("group") + "中删除 !");
+			this.informPlayer(plugin, userName, "你已从 \"" + groupName + "\" 组中被删除");
 
 		}
 	}
@@ -652,19 +652,19 @@ public class GroupCommands extends PermissionsCommand {
 	@Command(name = "pex",
 			syntax = "default group [world]",
 			permission = "permissions.manage.groups.inheritance",
-			description = "Print default group for specified world")
+			description = "获取指定 [世界] 中的默认组")
 	public void groupDefaultCheck(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		String worldName = this.autoCompleteWorldName(args.get("world"));
 
 
 		PermissionGroup defaultGroup = PermissionsEx.getPermissionManager().getDefaultGroup(worldName);
-		sender.sendMessage("Default group in " + worldName + " world is " + defaultGroup.getName() + " group");
+		sender.sendMessage("默认组在 " + worldName + " 世界中是 " + defaultGroup.getName() + " 组");
 	}
 
 	@Command(name = "pex",
 			syntax = "set default group <group> [world]",
 			permission = "permissions.manage.groups.inheritance",
-			description = "Set default group for specified world")
+			description = "设置指定世界中的默认组")
 	public void groupDefaultSet(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		String groupName = this.autoCompleteGroupName(args.get("group"));
 		String worldName = this.autoCompleteWorldName(args.get("world"));
@@ -672,11 +672,11 @@ public class GroupCommands extends PermissionsCommand {
 		PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(groupName);
 
 		if (group == null || group.isVirtual()) {
-			sender.sendMessage(ChatColor.RED + "Specified group doesn't exist");
+			sender.sendMessage(ChatColor.RED + "指定的组不存在");
 			return;
 		}
 
 		PermissionsEx.getPermissionManager().setDefaultGroup(group, worldName);
-		sender.sendMessage("New default group in " + worldName + " world is " + group.getName() + " group");
+		sender.sendMessage("默认组在 " + worldName + " 世界中已被设置为 " + group.getName() + " 组");
 	}
 }

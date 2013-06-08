@@ -42,17 +42,17 @@ public class UtilityCommands extends PermissionsCommand {
 	@Command(name = "pex",
 			syntax = "reload",
 			permission = "permissions.manage.reload",
-			description = "Reload environment")
+			description = "重新加载环境")
 	public void reload(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		PermissionsEx.getPermissionManager().reset();
 
-		sender.sendMessage(ChatColor.WHITE + "Permissions reloaded");
+		sender.sendMessage(ChatColor.WHITE + "权限已重新加载");
 	}
 
 	@Command(name = "pex",
 			syntax = "config <node> [value]",
 			permission = "permissions.manage.config",
-			description = "Print or set <node> [value]")
+			description = "获取或置 <节点> [值]")
 	public void config(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		if (!(plugin instanceof PermissionsEx)) {
 			return;
@@ -70,7 +70,7 @@ public class UtilityCommands extends PermissionsCommand {
 			try {
 				config.save(new File(plugin.getDataFolder(), "config.yml"));
 			} catch (Throwable e) {
-				sender.sendMessage(ChatColor.RED + "[PermissionsEx] Failed to save configuration: " + e.getMessage());
+				sender.sendMessage(ChatColor.RED + "[权限] 保存配置文件失败: " + e.getMessage());
 			}
 		}
 
@@ -101,7 +101,7 @@ public class UtilityCommands extends PermissionsCommand {
 	@Command(name = "pex",
 			syntax = "backend <backend>",
 			permission = "permissions.manage.backend",
-			description = "Change permission backend on the fly (Use with caution!)")
+			description = "在使用中改变后端 (使用时请注意!)")
 	public void setBackend(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		if (args.get("backend") == null) {
 			return;
@@ -109,12 +109,12 @@ public class UtilityCommands extends PermissionsCommand {
 
 		try {
 			PermissionsEx.getPermissionManager().setBackend(args.get("backend"));
-			sender.sendMessage(ChatColor.WHITE + "Permission backend changed!");
+			sender.sendMessage(ChatColor.WHITE + "权限后端已更改!");
 		} catch (RuntimeException e) {
 			if (e.getCause() instanceof ClassNotFoundException) {
-				sender.sendMessage(ChatColor.RED + "Specified backend not found.");
+				sender.sendMessage(ChatColor.RED + "找不到指定的后端.");
 			} else {
-				sender.sendMessage(ChatColor.RED + "Error during backend initialization.");
+				sender.sendMessage(ChatColor.RED + "后端加载出错.");
 				e.printStackTrace();
 			}
 		}
@@ -123,16 +123,16 @@ public class UtilityCommands extends PermissionsCommand {
 	@Command(name = "pex",
 			syntax = "hierarchy [world]",
 			permission = "permissions.manage.users",
-			description = "Print complete user/group hierarchy")
+			description = "打印完整的 用户/组 阶层")
 	public void printHierarhy(Plugin plugin, CommandSender sender, Map<String, String> args) {
-		sender.sendMessage("User/Group inheritance hierarchy:");
+		sender.sendMessage("用户/组 继承的阶层:");
 		this.sendMessage(sender, this.printHierarchy(null, this.autoCompleteWorldName(args.get("world")), 0));
 	}
 
 	@Command(name = "pex",
 			syntax = "dump <backend> <filename>",
 			permission = "permissions.dump",
-			description = "Dump users/groups to selected <backend> format")
+			description = "输出 用户/组 到指定的 <后端> 格式")
 	public void dumpData(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		if (!(plugin instanceof PermissionsEx)) {
 			return; // User informing is disabled
@@ -149,10 +149,10 @@ public class UtilityCommands extends PermissionsCommand {
 
 			outStream.close();
 
-			sender.sendMessage(ChatColor.WHITE + "[PermissionsEx] Data dumped in \"" + dstFile.getName() + "\" ");
+			sender.sendMessage(ChatColor.WHITE + "[权限] 数据已导出为 \"" + dstFile.getName() + "\" ");
 		} catch (RuntimeException e) {
 			if (e.getCause() instanceof ClassNotFoundException) {
-				sender.sendMessage(ChatColor.RED + "Specified backend not found!");
+				sender.sendMessage(ChatColor.RED + "找不到指定的后端!");
 			} else {
 				sender.sendMessage(ChatColor.RED + "Error: " + e.getMessage());
 				logger.severe("Error: " + e.getMessage());
@@ -166,13 +166,13 @@ public class UtilityCommands extends PermissionsCommand {
 	@Command(name = "pex",
 			syntax = "toggle debug",
 			permission = "permissions.debug",
-			description = "Enable/disable debug mode")
+			description = "启用/禁用 调试模式")
 	public void toggleFeature(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		PermissionManager manager = PermissionsEx.getPermissionManager();
 
 		manager.setDebug(!manager.isDebug());
 
-		String debugStatusMessage = "[PermissionsEx] Debug mode " + (manager.isDebug() ? "enabled" : "disabled");
+		String debugStatusMessage = "[权限] 调试模式 " + (manager.isDebug() ? "已启用" : "已禁用");
 
 		if (sender instanceof Player) {
 			sender.sendMessage(debugStatusMessage);
@@ -184,7 +184,7 @@ public class UtilityCommands extends PermissionsCommand {
 	@Command(name = "pex",
 			syntax = "help [page] [count]",
 			permission = "permissions.manage",
-			description = "PermissionsEx commands help")
+			description = "权限使用说明")
 	public void showHelp(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		List<CommandBinding> commands = this.manager.getCommands();
 
@@ -192,13 +192,13 @@ public class UtilityCommands extends PermissionsCommand {
 		int page = args.containsKey("page") ? Integer.parseInt(args.get("page")) : 1;
 
 		if (page < 1) {
-			sender.sendMessage("Page couldn't be lower than 1");
+			sender.sendMessage("页码必须比 1 大");
 			return;
 		}
 
 		int totalPages = (int) Math.ceil(commands.size() / count);
 
-		sender.sendMessage(ChatColor.BLUE + "PermissionsEx" + ChatColor.WHITE + " commands (page " + ChatColor.GOLD + page + "/" + totalPages + ChatColor.WHITE + "): ");
+		sender.sendMessage(ChatColor.BLUE + "权限" + ChatColor.WHITE + " 指令 (第" + ChatColor.GOLD + page + "/" + totalPages + ChatColor.WHITE + "页): ");
 
 		int base = count * (page - 1);
 

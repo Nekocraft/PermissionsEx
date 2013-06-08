@@ -35,7 +35,7 @@ public class PromotionCommands extends PermissionsCommand {
 
 	@Command(name = "pex",
 			syntax = "group <group> rank [rank] [ladder]",
-			description = "Get or set <group> [rank] [ladder]",
+			description = "获取或设置 <组> [等级] [阶级]",
 			isPrimary = true,
 			permission = "permissions.groups.rank.<group>")
 	public void rankGroup(Plugin plugin, CommandSender sender, Map<String, String> args) {
@@ -44,7 +44,7 @@ public class PromotionCommands extends PermissionsCommand {
 		PermissionGroup group = PermissionsEx.getPermissionManager().getGroup(groupName);
 
 		if (group == null) {
-			sender.sendMessage(ChatColor.RED + "Group \"" + groupName + "\" not found");
+			sender.sendMessage(ChatColor.RED + "组 \"" + groupName + "\" 不存在");
 			return;
 		}
 
@@ -54,7 +54,7 @@ public class PromotionCommands extends PermissionsCommand {
 			try {
 				group.setRank(Integer.parseInt(newRank));
 			} catch (NumberFormatException e) {
-				sender.sendMessage("Wrong rank. Make sure it's number.");
+				sender.sendMessage("无效的等级, 必须是一个数组.");
 			}
 
 			if (args.containsKey("ladder")) {
@@ -65,22 +65,22 @@ public class PromotionCommands extends PermissionsCommand {
 		int rank = group.getRank();
 
 		if (rank > 0) {
-			sender.sendMessage("Group " + group.getName() + " rank is " + rank + " (ladder = " + group.getRankLadder() + ")");
+			sender.sendMessage("组 " + group.getName() + " 的等级是 " + rank + " (阶级 = " + group.getRankLadder() + ")");
 		} else {
-			sender.sendMessage("Group " + group.getName() + " is unranked");
+			sender.sendMessage("组 " + group.getName() + " 没有等级");
 		}
 	}
 
 	@Command(name = "pex",
 			syntax = "promote <user> [ladder]",
-			description = "Promotes <user> to next group on [ladder]",
+			description = "提升 <用户> 到下一个组 于 [阶级] 上",
 			isPrimary = true)
 	public void promoteUser(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		String userName = this.autoCompletePlayerName(args.get("user"));
 		PermissionUser user = PermissionsEx.getPermissionManager().getUser(userName);
 
 		if (user == null) {
-			sender.sendMessage("Specified user \"" + args.get("user") + "\" not found!");
+			sender.sendMessage("指定的玩家 \"" + args.get("user") + "\" 不存在!");
 			return;
 		}
 
@@ -95,7 +95,7 @@ public class PromotionCommands extends PermissionsCommand {
 		if (sender instanceof Player) {
 			promoter = PermissionsEx.getPermissionManager().getUser(((Player) sender).getName());
 			if (promoter == null || !promoter.has("permissions.user.promote." + ladder, ((Player) sender).getWorld().getName())) {
-				sender.sendMessage(ChatColor.RED + "You don't have enough permissions to promote on this ladder");
+				sender.sendMessage(ChatColor.RED + "你没有足够的权限去提升阶级组");
 				return;
 			}
 
@@ -105,25 +105,25 @@ public class PromotionCommands extends PermissionsCommand {
 		try {
 			PermissionGroup targetGroup = user.promote(promoter, ladder);
 
-			this.informPlayer(plugin, user.getName(), "You have been promoted on " + targetGroup.getRankLadder() + " ladder to " + targetGroup.getName() + " group");
-			sender.sendMessage("User " + user.getName() + " promoted to " + targetGroup.getName() + " group");
-			Logger.getLogger("Minecraft").info("User " + user.getName() + " has been promoted to " + targetGroup.getName() + " group on " + targetGroup.getRankLadder() + " ladder by " + promoterName);
+			this.informPlayer(plugin, user.getName(), "你已经被提升为 " + targetGroup.getRankLadder() + " 级阶级 " + targetGroup.getName() + " 组");
+			sender.sendMessage("用户 " + user.getName() + " 已被提升到 " + targetGroup.getName() + " 组");
+			Logger.getLogger("Minecraft").info("用户 " + user.getName() + " 已被提升到 " + targetGroup.getName() + " 组在 " + targetGroup.getRankLadder() + " 阶级 " + promoterName);
 		} catch (RankingException e) {
-			sender.sendMessage(ChatColor.RED + "Promotion error: " + e.getMessage());
+			sender.sendMessage(ChatColor.RED + "提升错误: " + e.getMessage());
 			Logger.getLogger("Minecraft").severe("Ranking Error (" + promoterName + " > " + e.getTarget().getName() + "): " + e.getMessage());
 		}
 	}
 
 	@Command(name = "pex",
 			syntax = "demote <user> [ladder]",
-			description = "Demotes <user> to previous group or [ladder]",
+			description = "降低 <用户> 到上一个组于 [阶级]",
 			isPrimary = true)
 	public void demoteUser(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		String userName = this.autoCompletePlayerName(args.get("user"));
 		PermissionUser user = PermissionsEx.getPermissionManager().getUser(userName);
 
 		if (user == null) {
-			sender.sendMessage(ChatColor.RED + "Specified user \"" + args.get("user") + "\" not found!");
+			sender.sendMessage(ChatColor.RED + "指定的用户 \"" + args.get("user") + "\" 不存在!");
 			return;
 		}
 
@@ -139,7 +139,7 @@ public class PromotionCommands extends PermissionsCommand {
 			demoter = PermissionsEx.getPermissionManager().getUser(((Player) sender).getName());
 
 			if (demoter == null || !demoter.has("permissions.user.demote." + ladder, ((Player) sender).getWorld().getName())) {
-				sender.sendMessage(ChatColor.RED + "You don't have enough permissions to demote on this ladder");
+				sender.sendMessage(ChatColor.RED + "你没有足够的权限来降低阶级组");
 				return;
 			}
 
@@ -149,18 +149,18 @@ public class PromotionCommands extends PermissionsCommand {
 		try {
 			PermissionGroup targetGroup = user.demote(demoter, args.get("ladder"));
 
-			this.informPlayer(plugin, user.getName(), "You have been demoted on " + targetGroup.getRankLadder() + " ladder to " + targetGroup.getName() + " group");
-			sender.sendMessage("User " + user.getName() + " demoted to " + targetGroup.getName() + " group");
-			Logger.getLogger("Minecraft").info("User " + user.getName() + " has been demoted to " + targetGroup.getName() + " group on " + targetGroup.getRankLadder() + " ladder by " + demoterName);
+			this.informPlayer(plugin, user.getName(), "你已被降低到 " + targetGroup.getRankLadder() + " 阶级 " + targetGroup.getName() + " 组");
+			sender.sendMessage("用户 " + user.getName() + " 已被降低到 " + targetGroup.getName() + " 组");
+			Logger.getLogger("Minecraft").info("用户 " + user.getName() + " 已被 " + demoterName + " 降低到 " + targetGroup.getName() + " 组于 " + targetGroup.getRankLadder() + " 阶级 ");
 		} catch (RankingException e) {
-			sender.sendMessage(ChatColor.RED + "Demotion error: " + e.getMessage());
+			sender.sendMessage(ChatColor.RED + "降级出错: " + e.getMessage());
 			Logger.getLogger("Minecraft").severe("Ranking Error (" + demoterName + " demotes " + e.getTarget().getName() + "): " + e.getMessage());
 		}
 	}
 
 	@Command(name = "promote",
 			syntax = "<user>",
-			description = "Promotes <user> to next group",
+			description = "提升 <用户> 到下一个等级",
 			isPrimary = true,
 			permission = "permissions.user.rank.promote")
 	public void promoteUserAlias(Plugin plugin, CommandSender sender, Map<String, String> args) {
@@ -169,7 +169,7 @@ public class PromotionCommands extends PermissionsCommand {
 
 	@Command(name = "demote",
 			syntax = "<user>",
-			description = "Demotes <user> to previous group",
+			description = "降低 <用户> 到上一个等级",
 			isPrimary = true,
 			permission = "permissions.user.rank.demote")
 	public void demoteUserAlias(Plugin plugin, CommandSender sender, Map<String, String> args) {

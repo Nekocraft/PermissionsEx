@@ -66,7 +66,7 @@ public abstract class PermissionsCommand implements CommandListener {
 			return;
 		}
 
-		player.sendMessage(ChatColor.BLUE + "[PermissionsEx] " + ChatColor.WHITE + message);
+		player.sendMessage(ChatColor.BLUE + "[权限] " + ChatColor.WHITE + message);
 	}
 
 	protected String autoCompletePlayerName(String playerName) {
@@ -75,7 +75,7 @@ public abstract class PermissionsCommand implements CommandListener {
 
 	protected void printEntityInheritance(CommandSender sender, PermissionGroup[] groups) {
 		for (PermissionGroup group : groups) {
-			String rank = "not ranked";
+			String rank = "没有登记";
 			if (group.isRanked()) {
 				rank = "rank " + group.getRank() + " @ " + group.getRankLadder();
 			}

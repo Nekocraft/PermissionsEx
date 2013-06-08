@@ -36,7 +36,7 @@ public class WorldCommands extends PermissionsCommand {
 
 	@Command(name = "pex",
 			syntax = "worlds",
-			description = "Print loaded worlds",
+			description = "显示已加载的世界",
 			isPrimary = true,
 			permission = "permissions.manage.worlds")
 	public void worldsTree(Plugin plugin, CommandSender sender, Map<String, String> args) {
@@ -44,7 +44,7 @@ public class WorldCommands extends PermissionsCommand {
 
 		PermissionManager manager = PermissionsEx.getPermissionManager();
 
-		sender.sendMessage("Worlds on server: ");
+		sender.sendMessage("服务器中的世界: ");
 		for (World world : worlds) {
 			String[] parentWorlds = manager.getWorldInheritance(world.getName());
 			String output = "  " + world.getName();
@@ -58,21 +58,21 @@ public class WorldCommands extends PermissionsCommand {
 
 	@Command(name = "pex",
 			syntax = "world <world>",
-			description = "Print <world> inheritance info",
+			description = "显示 <世界>继承信息",
 			permission = "permissions.manage.worlds")
 	public void worldPrintInheritance(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		String worldName = this.autoCompleteWorldName(args.get("world"));
 		PermissionManager manager = PermissionsEx.getPermissionManager();
 		if (Bukkit.getServer().getWorld(worldName) == null) {
-			sender.sendMessage("Specified world \"" + args.get("world") + "\" not found.");
+			sender.sendMessage("指定的世界 \"" + args.get("world") + "\" 不存在.");
 			return;
 		}
 
 		String[] parentWorlds = manager.getWorldInheritance(worldName);
 
-		sender.sendMessage("World " + worldName + " inherit:");
+		sender.sendMessage("世界 " + worldName + " 继承:");
 		if (parentWorlds.length == 0) {
-			sender.sendMessage("nothing :3");
+			sender.sendMessage("啥都没有 :3");
 			return;
 		}
 
@@ -89,13 +89,13 @@ public class WorldCommands extends PermissionsCommand {
 
 	@Command(name = "pex",
 			syntax = "world <world> inherit <parentWorlds>",
-			description = "Set <parentWorlds> for <world>",
+			description = "设置 <父世界> 给 <世界>",
 			permission = "permissions.manage.worlds.inheritance")
 	public void worldSetInheritance(Plugin plugin, CommandSender sender, Map<String, String> args) {
 		String worldName = this.autoCompleteWorldName(args.get("world"));
 		PermissionManager manager = PermissionsEx.getPermissionManager();
 		if (Bukkit.getServer().getWorld(worldName) == null) {
-			sender.sendMessage("Specified world \"" + args.get("world") + "\" not found.");
+			sender.sendMessage("指定的世界 \"" + args.get("world") + "\" 不存在.");
 			return;
 		}
 
@@ -114,6 +114,6 @@ public class WorldCommands extends PermissionsCommand {
 
 		manager.setWorldInheritance(worldName, parents.toArray(new String[0]));
 
-		sender.sendMessage("World " + worldName + " inherits " + StringUtils.implode(parents, ", "));
+		sender.sendMessage("世界 " + worldName + " 已继承 " + StringUtils.implode(parents, ", "));
 	}
 }
