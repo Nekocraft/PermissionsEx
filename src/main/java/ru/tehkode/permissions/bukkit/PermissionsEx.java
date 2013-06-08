@@ -66,14 +66,10 @@ public class PermissionsEx extends JavaPlugin {
 	}
 
 	@Override
-	public void onLoad() {
+	public void onEnable() {
 		this.config = this.getConfig();
 		this.commandsManager = new CommandsManager(this);
 		this.permissionsManager = new PermissionManager(this.config);
-	}
-
-	@Override
-	public void onEnable() {
 		if (this.permissionsManager == null) {
 			this.permissionsManager = new PermissionManager(this.config);
 		}
